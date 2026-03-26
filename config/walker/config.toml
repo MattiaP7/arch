@@ -1,0 +1,40 @@
+# Impostazioni Generali UI
+[ui]
+width = 600
+height = 400
+fullscreen = false
+show_suggestions = true
+
+# Configurazione del Cerca Applicazioni (Default)
+[[plugins]]
+name = "applications"
+placeholder = "Cerca Applicazioni..."
+show_images = true
+
+# --- MODULO WALLPAPER ---
+# Questo sostituisce il tuo vecchio script .sh
+[[plugins]]
+name = "wallpaper"
+placeholder = "Seleziona Sfondo..."
+show_images = true
+image_size = 150
+# Cerca tutti i file immagine nella tua cartella
+run = "find /home/TUO_UTENTE/Pictures/wallpapers -type f -name '*.jpg' -o -name '*.png' -o -name '*.webp'"
+# Applica usando swww (modifica le transizioni come preferisci)
+exec = "swww img %s --transition-type wipe --transition-duration 1"
+
+# --- MODULO KEYBINDS (Stile Omarchy) ---
+# Legge i bind direttamente dal tuo file hyprland
+[[plugins]]
+name = "keybinds"
+placeholder = "Cerca Scorciatoie Hyprland..."
+# Estrae i bind formattandoli in modo leggibile
+run = "grep -E '^bind' /home/TUO_UTENTE/.config/hypr/hyprland.conf | sed 's/bind = //g'"
+# Esegue il comando scelto (usa hyprctl per i dispatch)
+exec = "bash -c 'CMD=$(echo \"%s\" | cut -d, -f3-); if [[ $CMD == exec* ]]; then eval $CMD; else hyprctl dispatch $CMD; fi'"
+
+# Altri plugin utili (Opzionale)
+[[plugins]]
+name = "finder"
+placeholder = "Cerca File..."
+run = "fd --type f"

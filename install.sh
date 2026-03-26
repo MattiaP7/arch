@@ -61,6 +61,4 @@ yay -S xdg-user-dirs nwg-look ags-hyprpanel-git
 xdg-user-dirs-update
 
 swww-daemon & disown
-cp -r "$HOME/dotfiles/config/hypr/"  "$HOME/.config/" 
-cp -r "$HOME/dotfiles/config/kitty/" "$HOME/.config/"
-cp -r "$HOME/dotfiles/config/nvim/" "$HOME/.config/"
+

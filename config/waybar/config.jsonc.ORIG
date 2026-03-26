@@ -1,0 +1,103 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 38,
+  "spacing": 6,
+  "margin-top": 0,
+  "margin-bottom": 0,
+  
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": [
+    "custom/wifi",
+    "bluetooth",
+    "battery",
+    "clock"
+  ],
+  "modules-right": [
+    "custom/notifications",
+    "custom/calendar",
+    "custom/volume"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+
+  "custom/wifi": {
+    "format": "{}",
+    "interval": 5,
+    "exec": "~/.config/waybar/scripts/wifi.sh",
+    "on-click": "kitty -e impala",
+    "tooltip": true,
+    "return-type": "json"
+  },
+
+  "bluetooth": {
+    "format": "{}",
+    "interval": 5,
+    "exec": "~/.config/waybar/scripts/bluetooth.sh",
+    "on-click": "kitty -e bluetui",
+    "tooltip": true,
+    "return-type": "json"
+  },
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": {
+        "default": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "charging": "󰂄",
+        "warning": "󰂎",
+        "critical": "󰂎"
+    },
+    "exec": "~/.config/waybar/battery.sh",
+    "format-charging": "󰂄 {capacity}%",
+    "format-warning": "󰂎 {capacity}%",
+    "format-critical": "󰂎 {capacity}%",
+    "tooltip": true,
+    "tooltip-format": "{capacity}% - {time} rimanenti",
+    "interval": 10,
+    "bat": "BAT0"
+  },
+
+  "clock": {
+    "format": "󰅐 {:%H:%M}",
+    "format-alt": "󰃭 {:%d/%m/%Y}",
+    "tooltip-format": "<big>{:%A %d %B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+    "interval": 60,
+    "on-click": "gnome-calendar"
+  },
+
+  
+"custom/volume": {
+    "format": "{}",
+    "interval": 1,
+    "exec": "~/.config/waybar/scripts/volume.sh",
+    "on-click": "pavucontrol",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+    "tooltip": true,
+    "return-type": "json"
+},
+
+
+  "custom/notifications": {
+    "format": "󰂚 {}",
+    "interval": 2,
+    "exec": "~/.config/waybar/scripts/notifications.sh",
+    "on-click": "swaync-client -t",
+    "tooltip": true,
+    "return-type": "json"
+  },
+
+  "custom/calendar": {
+    "format": "󰸗 {}",
+    "interval": 60,
+    "exec": "date '+%d/%m'",
+    "on-click": "gnome-calendar",
+    "tooltip": true,
+    "tooltip-format": "date '+%A %d %B %Y'"
+  }
+}

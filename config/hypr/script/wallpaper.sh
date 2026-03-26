@@ -23,12 +23,13 @@ fi
 
 # trova il prossimo
 NEXT=""
-for i in "${!WALLPAPERS[@]}"; do
-  if [ "${WALLPAPERS[$i]}" = "$CURRENT" ]; then
-    NEXT="${WALLPAPERS[$(( (i + 1) % ${#WALLPAPERS[@]} ))]}"
-    break
-  fi
-done
+# Sostituisci la parte del ciclo FOR nel tuo script con:
+SELECTED=$(find "$WALLPAPER_DIR" -type f | walker --dmenu --placeholder "Scegli sfondo...")
+
+[ -z "$SELECTED" ] && exit 0
+
+swww img "$SELECTED" --transition-type "$TRANSITION"
+echo "$SELECTED" > "$STATE_FILE"
 
 # se non trovato, usa il primo
 [ -z "$NEXT" ] && NEXT="${WALLPAPERS[0]}"

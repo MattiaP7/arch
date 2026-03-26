@@ -1,35 +1,21 @@
 #!/bin/bash
 
-HYPR_CONF="$HOME/.config/hypr/bind.conf"
+hyprkeys -b -r -l -c ~/.config/hypr/bind.conf \
+| sed -e 's/bind = //' \
+      -e 's/, exec, / → /' \
+| awk -F',' '{
+    key=$1" + "$2
+    cmd=$3
 
-mapfile -t BINDINGS < <(
-  grep '^[[:space:]]*bind[[:space:]]*=' "$HYPR_CONF" |
-  sed -e 's/^[[:space:]]*bind[[:space:]]*=[[:space:]]*//' \
-      -e 's/  */ /g' \
-      -e 's/, /,/g' |
-  awk -F, -v q="'" '{
-    cmd=""
-    for(i=3;i<NF;i++) cmd=cmd $i " "
-    print "<b>"$1" + "$2"</b>  <i>"$NF",</i><span color="q"gray"q">"cmd"</span>"
-  }'
-)
+    gsub(/^ +| +$/, "", key)
+    gsub(/^ +| +$/, "", cmd)
 
-CHOICE=$(printf '%s\n' "${BINDINGS[@]}" | \
-  rofi -dmenu \
-     -i \
-     -markup-rows \
-     -icons \
-     -p "󱂬 Keybinds" \
-     -theme "$HOME/.config/rofi/launchers/type-2/style-2.rasi")
+    icon=""
+    if(cmd ~ /firefox|chrome/) icon=""
+    else if(cmd ~ /thunar|nautilus/) icon=""
+    else if(cmd ~ /code|nvim/) icon=""
 
-
-CMD=$(echo "$CHOICE" | sed -n "s/.*<span color='gray'>\(.*\)<\/span>.*/\1/p")
-
-[[ -z $CMD ]] && exit 0
-
-if [[ $CMD == exec* ]]; then
-    eval "$CMD"
-else
-    hyprctl dispatch "$CMD"
-fi
-
+    printf "%s  <b>%-18s</b>  <span color=\"#888\">%s</span>\n", icon, key, cmd
+}' \
+| rofi -dmenu -i -markup-rows -p "󱂬 Keybinds" \
+  -theme "$HOME/.config/rofi/launchers/type-5/style-4.rasi"
