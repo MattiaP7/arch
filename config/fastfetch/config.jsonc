@@ -1,31 +1,44 @@
 {
-
-  "display": {
-    "separator": "  "
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "/home/pirazzi/Pictures/yuji.png",
+    "type": "kitty",
+    "height": 15,
+    "width": 30,
+    "padding": {
+      "top": 0,
+      "left": 2
+    }
   },
-
+  "display": {
+    "separator": " 󰄾 ",
+    "color": {
+      "keys": "magenta",
+      "title": "blue"
+    }
+  },
   "modules": [
-    "title",
+    { "type": "title", "color": { "user": "blue", "at": "white", "host": "blue" } },
     "separator",
-
-    { "type": "os", "key": "󰣇 OS" },
-    { "type": "kernel", "key": " Kernel" },
-    { "type": "uptime", "key": "󰅐 Uptime" },
-    { "type": "packages", "key": "󰏖 Packages" },
-    { "type": "shell", "key": " Shell" },
-    { "type": "wm", "key": " WM" },
-    { "type": "terminal", "key": " Terminal" },
-
+    { "type": "os", "key": "󰣇 OS ", "keyColor": "blue" },
+    { "type": "kernel", "key": " Ker", "keyColor": "blue" },
+    { "type": "uptime", "key": "󰅐 Upt", "keyColor": "blue" },
+    { 
+      "type": "localip", 
+      "showMac": true,
+      "key": "󰩟 Net", 
+      "keyColor": "blue",
+      "format": "{1} : {3}" 
+    },
+    { "type": "shell", "key": " Shl", "keyColor": "blue" },
+    { "type": "wm", "key": " WM ", "keyColor": "blue" },
+    { "type": "terminal", "key": " Ter", "keyColor": "blue" },
     "break",
-
-    { "type": "cpu", "key": " CPU" },
-    { "type": "gpu", "key": "󰢮 GPU" },
-    { "type": "memory", "key": "󰍛 RAM" },
-    { "type": "disk", "key": " Disk" },
-
+    { "type": "cpu", "key": " CPU", "keyColor": "magenta" },
+    { "type": "gpu", "key": "󰢮 GPU", "keyColor": "magenta" },
+    { "type": "memory", "key": "󰍛 RAM", "keyColor": "magenta" },
+    { "type": "disk", "key": " Dsk", "keyColor": "magenta" },
     "break",
-
-    "colors"
+    { "type": "colors", "symbol": "circle" }
   ]
 }
-
