@@ -1,0 +1,11 @@
+<layout>
+  <box orientation="vertical" spacing="10" class="main-window">
+    <box class="search-container">
+      <entry placeholder="Search..." class="search-entry" />
+    </box>
+
+    <scroll>
+      <list class="items-list" />
+    </scroll>
+  </box>
+</layout>

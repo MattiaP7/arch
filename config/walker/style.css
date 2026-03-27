@@ -1,0 +1,67 @@
+/* Palette Tokyo Night */
+@define-color bg #1a1b26;
+@define-color fg #c0caf5;
+@define-color selection #283457;
+@define-color accent #7aa2f7;
+@define-color magenta #bb9af7;
+@define-color border #3d59a1;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 14px;
+  color: @fg;
+}
+
+window {
+  background: transparent;
+}
+
+.main-window {
+  background-color: @bg;
+  border: 2px solid @border;
+  border-radius: 12px;
+  padding: 15px;
+  /* Opzionale: aggiungi un'ombra se vuoi profondità */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.search-entry {
+  background-color: @selection;
+  border: 1px solid @accent;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 5px;
+  caret-color: @magenta;
+}
+
+.search-entry:focus {
+  outline: none;
+}
+
+.items-list {
+  margin-top: 10px;
+}
+
+/* Stile per ogni singolo elemento della lista */
+child {
+  padding: 8px;
+  border-radius: 6px;
+  margin: 2px 0;
+}
+
+child:selected {
+  background-color: @selection;
+  border-left: 4px solid @magenta;
+}
+
+/* Icone accanto alle app */
+image {
+  margin-right: 12px;
+}
+
+/* Sottotitolo (es. descrizione app) */
+.text-description {
+  font-size: 11px;
+  color: #565f89;
+  /* Grigio Tokyo Night */
+}
