@@ -264,3 +264,51 @@ tooltip label {
   border-color: @cyan;
   box-shadow: 0 0 14px rgba(125, 207, 255, 0.22);
 }
+
+#custom-power {
+  padding: 0 14px;
+  margin: 4px 4px;
+  border-radius: 8px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #f7768e;
+  /* Tokyo Night red */
+  background: rgba(247, 118, 142, 0.08);
+  border: 1px solid rgba(247, 118, 142, 0.18);
+
+  transition: all 0.25s ease;
+}
+
+/* hover */
+#custom-power:hover {
+  background: rgba(247, 118, 142, 0.18);
+  color: #ffffff;
+  border-color: #f7768e;
+  box-shadow: 0 0 12px rgba(247, 118, 142, 0.35);
+}
+
+/* click feedback */
+/* #custom-power:active { */
+/*   transform: scale(0.92); */
+/* } */
+
+/* glow leggero (opzionale) */
+#custom-power {
+  animation: power-glow 3s ease-in-out infinite;
+}
+
+@keyframes power-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(247, 118, 142, 0.12);
+  }
+
+  50% {
+    box-shadow: 0 0 14px rgba(247, 118, 142, 0.30);
+  }
+
+  100% {
+    box-shadow: 0 0 5px rgba(247, 118, 142, 0.12);
+  }
+}

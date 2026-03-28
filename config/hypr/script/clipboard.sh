@@ -1,84 +1,33 @@
 #!/bin/bash
-# =============================================================================
-# CLIPBOARD MANAGER — cliphist + walker
-# Menu pulito, preview intelligente, senza confusione visiva
-# =============================================================================
 
-MAX_TEXT_LEN=80   # caratteri massimi per la preview del testo
+# Cartella per le anteprime delle immagini
+PREVIEW_DIR="/tmp/cliphist_previews"
+mkdir -p "$PREVIEW_DIR"
 
-# ---------------------------------------------------------------------------
-# Recupera lista clipboard
-# ---------------------------------------------------------------------------
-raw_list=$(cliphist list 2>/dev/null)
+# Recupera la lista da cliphist
+selection=$(cliphist list | gawk -v dir="$PREVIEW_DIR" '{
+    id = $1
+    # Se la riga contiene dati binari (immagini)
+    if ($0 ~ /\[\[ binary data/) {
+        icon_path = dir "/" id ".png"
+        # Estrae l immagine solo se l anteprima non esiste già
+        if (system("test -f " icon_path) != 0) {
+            system("cliphist decode " id " > " icon_path " 2>/dev/null")
+        }
+        # Formatta per Fuzzel: ID\tTesto \0icon\x1f percorso
+        print $0 "\0icon\x1f" icon_path
+    } else {
+        # Se è testo, usa un icona generica e tronca per pulizia
+        split($0, arr, "\t")
+        text = arr[2]
+        if (length(text) > 80) text = substr(text, 1, 80) "…"
+        print id "\t󰆒  " text "\0icon\x1fedit-paste"
+    }
+}' | fuzzel --dmenu --placeholder "📋 Clipboard History...")
 
-if [ -z "$raw_list" ]; then
-    notify-send "Clipboard" "La cronologia è vuota" --icon=edit-paste -t 2000
-    exit 0
-fi
-
-# ---------------------------------------------------------------------------
-# Formatta lista: una riga pulita per ogni entry
-# Formato output:  ID\tPREVIEW
-# ---------------------------------------------------------------------------
-formatted_list=$(echo "$raw_list" | while IFS=$'\t' read -r id content; do
-    # Immagine / dato binario
-    if [[ "$content" == *"<< binary data >>"* ]]; then
-        printf "%s\t󰋩  [immagine]\n" "$id"
-        continue
-    fi
-
-    # Rimuove spazi/newline in eccesso, tronca
-    preview=$(echo "$content" \
-        | tr '\n\t' '  ' \
-        | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' \
-        | cut -c "1-$MAX_TEXT_LEN")
-
-    # Aggiunge "…" se troncato
-    original_len=${#content}
-    [ "$original_len" -gt "$MAX_TEXT_LEN" ] && preview="$preview…"
-
-    # Salta righe vuote
-    [ -z "$preview" ] && continue
-
-    printf "%s\t󰆒  %s\n" "$id" "$preview"
-done)
-
-# ---------------------------------------------------------------------------
-# Walker — mostra solo la preview (colonna 2), nasconde l'ID
-# ---------------------------------------------------------------------------
-selected_preview=$(echo "$formatted_list" | cut -f2 | walker \
-    --dmenu \
-    --placeholder "󱘝  Cerca nella clipboard..." \
-    --width 700 \
-    --height 480 \
-    )
-
-[ -z "$selected_preview" ] && exit 0
-
-# ---------------------------------------------------------------------------
-# Ritrova l'ID originale dalla preview selezionata
-# ---------------------------------------------------------------------------
-clip_id=$(echo "$formatted_list" \
-    | grep -F "$(printf '\t')${selected_preview}" \
-    | head -n1 \
-    | cut -f1)
-
-# Fallback: prova match parziale
-if [ -z "$clip_id" ]; then
-    clip_id=$(echo "$formatted_list" \
-        | awk -F'\t' -v sel="$selected_preview" '$2 == sel {print $1; exit}')
-fi
-
-# ---------------------------------------------------------------------------
-# Copia negli appunti Wayland
-# ---------------------------------------------------------------------------
-if [ -n "$clip_id" ]; then
-    cliphist decode "$clip_id" | wl-copy
-    notify-send "Clipboard" "Copiato negli appunti" \
-        --icon=edit-copy \
-        --expire-time=1500
-else
-    notify-send "Clipboard" "Errore: elemento non trovato" \
-        --icon=dialog-error \
-        --expire-time=2000
+# Se l utente ha selezionato qualcosa, copia negli appunti
+if [ -n "$selection" ]; then
+    id=$(echo "$selection" | cut -f1)
+    cliphist decode "$id" | wl-copy
+    notify-send "Clipboard" "Elemento ripristinato" -i edit-paste -t 1000
 fi

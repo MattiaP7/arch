@@ -12,7 +12,8 @@
     "bluetooth",
     "power-profiles-daemon",
     "battery",
-    "clock"
+    "clock",
+    "custom/power"
   ],
   "modules-right": [
     "custom/notifications",
@@ -20,6 +21,11 @@
     "custom/volume"
   ],
 
+  "custom/power": {
+    "format": "⏻",
+    "on-click": "wlogout",
+    "tooltip": false
+  },
   
   "mpris": {
       "format": "{player_icon} {title}",
@@ -42,7 +48,7 @@
       "max-length": 40,
       "interval": 1,
       "dynamic-len": 35,
-      "tooltip": false
+      "tooltip": true
   },
 
 
@@ -52,7 +58,7 @@
     "format-en": "US",
     "format-it": "IT",
     "min-length": 5,
-    "tooltip": false
+    "tooltip": true
 },
 
   "hyprland/workspaces": {
