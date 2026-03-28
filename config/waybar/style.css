@@ -1,60 +1,184 @@
+/* --- TOKYO NIGHT PALETTE --- */
+@define-color bg_dark #1a1b26;
+@define-color bg_alt #24283b;
+@define-color fg #c0caf5;
+@define-color blue #7aa2f7;
+@define-color cyan #7dcfff;
+@define-color magenta #bb9af7;
+@define-color red #f7768e;
+@define-color orange #ff9e64;
+@define-color yellow #e0af68;
+@define-color green #9ece6a;
+@define-color gray #565f89;
+@define-color selection #33467c;
+
 * {
   font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", "DejaVu Sans", sans-serif;
   font-size: 20px;
+  /* Leggermente ridotto per eleganza */
   min-height: 0;
 }
 
 window#waybar {
-  background: rgba(30, 30, 46, 0.9);
-  color: #cdd6f4;
-  border-bottom: 2px solid #cba6f7;
+  background: rgba(26, 27, 38, 0.85);
+  /* bg_dark con trasparenza */
+  color: @fg;
+  border-bottom: 2px solid @blue;
   transition: all 0.3s ease;
 }
 
+/* --- REGOLE COMUNI MODULI --- */
 #workspaces,
 #clock,
 #custom-wifi,
 #bluetooth,
 #battery,
 #custom-notifications,
+#custom-volume,
 #pulseaudio,
-#custom-calendar {
+#custom-calendar,
+#power-profiles-daemon {
   padding: 0 10px;
-  margin: 0 2px;
-  border-radius: 6px;
+  margin: 4px 2px;
+  border-radius: 8px;
   transition: all 0.2s ease;
 }
 
-/* Workspace con numeri normali */
+.modules-center {
+  background: @bg_alt;
+  border-radius: 12px;
+  padding: 0 8px;
+  margin: 4px 0;
+}
+
 #workspaces button {
-  color: #7f849c;
+  color: @gray;
   padding: 0 12px;
   margin: 4px 2px;
   border-radius: 6px;
-  background: rgba(49, 50, 68, 0.6);
+  background: transparent;
   transition: all 0.2s ease;
-  font-weight: normal;
-  font-size: 16px;
 }
 
 #workspaces button:hover {
-  background: rgba(203, 166, 247, 0.3);
-  color: #cba6f7;
+  background: rgba(122, 162, 247, 0.2);
+  /* blue trasparente */
+  color: @cyan;
 }
 
 #workspaces button.active {
-  background: #cba6f7;
-  color: #1e1e2e;
+  background: @magenta;
+  color: @bg_dark;
   font-weight: bold;
-  box-shadow: 0 0 8px rgba(203, 166, 247, 0.5);
+  box-shadow: 0 0 8px rgba(187, 154, 247, 0.5);
 }
 
 #workspaces button.urgent {
-  background: #f38ba8;
-  color: #1e1e2e;
+  background: @red;
+  color: @bg_dark;
   animation: pulse 1s infinite;
 }
 
+
+#clock {
+  font-weight: bold;
+  color: @blue;
+}
+
+#custom-wifi.connected {
+  color: @green;
+}
+
+#custom-wifi.disconnected {
+  color: @red;
+}
+
+#custom-wifi.disabled {
+  color: @gray;
+}
+
+#bluetooth.connected {
+  color: @cyan;
+}
+
+#bluetooth.disconnected {
+  color: @red;
+}
+
+#bluetooth.disabled {
+  color: @gray;
+}
+
+#battery {
+  background: rgba(158, 206, 106, 0.1);
+  /* green trasparente */
+  color: @green;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @yellow;
+  background: rgba(224, 175, 104, 0.1);
+}
+
+#battery.warning:not(.charging) {
+  color: @orange;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  animation: blink 1s infinite;
+}
+
+#custom-volume.low {
+  color: @green;
+}
+
+#custom-volume.medium {
+  color: @yellow;
+}
+
+#custom-volume.high {
+  color: @magenta;
+}
+
+#custom-volume.muted {
+  color: @gray;
+}
+
+#custom-notifications {
+  color: @red;
+}
+
+#custom-notifications.has-notifications {
+  color: @yellow;
+  animation: gentle-pulse 1s infinite;
+}
+
+#power-profiles-daemon.performance {
+  color: @red;
+}
+
+#power-profiles-daemon.balanced {
+  color: @cyan;
+}
+
+#power-profiles-daemon.power-saver {
+  color: @green;
+}
+
+/* --- TOOLTIP --- */
+tooltip {
+  background: @bg_dark;
+  border: 1px solid @blue;
+  border-radius: 12px;
+}
+
+tooltip label {
+  color: @fg;
+}
+
+/* --- ANIMATIONS --- */
 @keyframes pulse {
   0% {
     opacity: 1;
@@ -67,113 +191,6 @@ window#waybar {
   100% {
     opacity: 1;
   }
-}
-
-.modules-center {
-  background: rgba(49, 50, 68, 0.5);
-  border-radius: 12px;
-  padding: 0 8px;
-  margin: 4px 0;
-}
-
-.modules-center>* {
-  margin: 0 4px;
-}
-
-#clock {
-  font-weight: bold;
-  background: rgba(137, 180, 250, 0.1);
-  border-radius: 8px;
-  padding: 0 12px;
-  color: #89b4fa;
-}
-
-#clock:hover {
-  background: rgba(137, 180, 250, 0.2);
-}
-
-/* Wifi con icone dinamiche */
-#custom-wifi {
-  font-size: 16px;
-}
-
-#custom-wifi.connected {
-  color: #a6e3a1;
-}
-
-#custom-wifi.disconnected {
-  color: #f38ba8;
-}
-
-#custom-wifi.disabled {
-  color: #7f849c;
-}
-
-/* Bluetooth */
-#bluetooth {
-  font-size: 16px;
-}
-
-#bluetooth.connected {
-  color: #94e2d5;
-}
-
-#bluetooth.disabled {
-  color: #7f849c;
-}
-
-#bluetooth.disconnected {
-  color: #f38ba8;
-}
-
-/* Battery */
-/* Sostituisci o aggiorna queste parti nel tuo style.css */
-
-#battery {
-  background: rgba(166, 227, 161, 0.1);
-  color: #a6e3a1;
-  padding: 0 12px;
-}
-
-#battery.charging,
-#battery.plugged {
-  color: #cba6f7;
-  background: rgba(203, 166, 247, 0.1);
-}
-
-#battery.warning:not(.charging) {
-  color: #fab387;
-  background: rgba(250, 179, 135, 0.1);
-}
-
-#battery.critical:not(.charging) {
-  color: #f38ba8;
-  background: rgba(243, 139, 168, 0.1);
-  animation: blink 1s infinite;
-}
-
-#custom-volume {
-  color: #f5c2e7;
-  padding: 0 12px;
-  border-radius: 8px;
-  min-width: 80px;
-  /* Ridotto perché non c'è più la barra */
-}
-
-#custom-volume.muted {
-  color: #7f849c;
-}
-
-#custom-volume.low {
-  color: #a6e3a1;
-}
-
-#custom-volume.medium {
-  color: #f9e2af;
-}
-
-#custom-volume.high {
-  color: #f5c2e7;
 }
 
 @keyframes blink {
@@ -190,31 +207,13 @@ window#waybar {
   }
 }
 
-#pulseaudio {
-  color: #f5c2e7;
-}
-
-#pulseaudio.muted {
-  color: #7f849c;
-}
-
-#custom-notifications {
-  color: #f38ba8;
-  font-size: 16px;
-}
-
-#custom-notifications.has-notifications {
-  color: #f9e2af;
-  animation: gentle-pulse 1s infinite;
-}
-
 @keyframes gentle-pulse {
   0% {
     opacity: 1;
   }
 
   50% {
-    opacity: 0.6;
+    opacity: 0.8;
   }
 
   100% {
@@ -222,56 +221,15 @@ window#waybar {
   }
 }
 
-#custom-calendar {
-  color: #cba6f7;
+#language {
+  color: @yellow;
+  /* Colore oro/giallo tipico del tema */
+  padding: 0 12px;
+  margin: 4px 2px;
   font-weight: bold;
 }
 
-tooltip {
-  background: rgba(30, 30, 46, 0.95);
-  border: 1px solid #cba6f7;
-  border-radius: 12px;
-  color: #cdd6f4;
-  font-size: 12px;
-  padding: 8px 12px;
-}
-
-/* Volume con barra */
-#custom-volume {
-  font-size: 20px;
-  min-width: 100px;
-}
-
-#custom-volume.low {
-  color: #a6e3a1;
-}
-
-#custom-volume.medium {
-  color: #f9e2af;
-}
-
-#custom-volume.high {
-  color: #f5c2e7;
-}
-
-#custom-volume.muted {
-  color: #7f849c;
-}
-
-/* Bluetooth con contatore */
-#bluetooth {
-  font-size: 16px;
-  min-width: 35px;
-}
-
-#bluetooth.connected {
-  color: #94e2d5;
-}
-
-#bluetooth.disconnected {
-  color: #f38ba8;
-}
-
-#bluetooth.disabled {
-  color: #7f849c;
+/* Effetto opzionale se vuoi che "pulsi" quando è su US (per ricordartelo) */
+#language.en {
+  color: @red;
 }

@@ -132,7 +132,11 @@ return {
 
 				cssls = {
 					settings = {
-						css = { validate = true },
+						css = {
+							lint = {
+								unknownAtRules = "ignore",
+							},
+						},
 						scss = { validate = true },
 						less = { validate = true },
 					},

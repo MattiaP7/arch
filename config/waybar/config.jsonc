@@ -10,14 +10,23 @@
   "modules-center": [
     "custom/wifi",
     "bluetooth",
+    "power-profiles-daemon",
     "battery",
     "clock"
   ],
   "modules-right": [
     "custom/notifications",
-    // "custom/calendar",
+    "hyprland/language",
     "custom/volume"
   ],
+
+  "hyprland/language": {
+    "format": "󰌌 {}", // Icona tastiera Nerd Font
+    "format-en": "US",
+    "format-it": "IT",
+    "min-length": 5,
+    "tooltip": false
+},
 
   "hyprland/workspaces": {
     "format": "{name}",
@@ -26,6 +35,17 @@
       "*": 5
     }
   },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Profilo: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "performance": "",
+      "balanced": "",
+      "power-saver": "" // Icona foglia per il risparmio
+    }
+},
 
   "custom/wifi": {
     "format": "{}",
