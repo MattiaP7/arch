@@ -61,12 +61,12 @@ chmod +x install.sh
 
 | Shortcut | Azione |
 |---|---|
-| `SUPER + Q` | Apri Kitty (Terminale) |
+| `SUPER + Invio` | Apri Kitty (Terminale) |
 | `SUPER + E` | Apri Dolphin/Nautilus (File Manager) |
-| `SUPER + R` | App Launcher (Walker/Rofi) |
+| `SUPER + Spazio` | App Launcher (Walker/Rofi) |
 | `ALT + SHIFT` | Cambia layout tastiera (IT/US) |
-| `SUPER + C` | Chiudi finestra attiva |
-
+| `SUPER + Q` | Chiudi finestra attiva |
+Troverete tutti i keybinds nel file `./config/hypr/bind.conf`
 ---
 
 ## ❓ Risoluzione Problemi (FAQ)
