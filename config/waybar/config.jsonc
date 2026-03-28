@@ -6,7 +6,7 @@
   "margin-top": 0,
   "margin-bottom": 0,
   
-  "modules-left": ["hyprland/workspaces"],
+  "modules-left": ["hyprland/workspaces","mpris"],
   "modules-center": [
     "custom/wifi",
     "bluetooth",
@@ -19,6 +19,33 @@
     "hyprland/language",
     "custom/volume"
   ],
+
+  
+  "mpris": {
+      "format": "{player_icon} {title}",
+      "format-paused": "{status_icon} {title}",
+      "player-icons": {
+          "default":  "󰝚",
+          "spotify":  "",
+          "firefox":  "",
+          "chromium": "",
+          "mpd":      "󰎆"
+      },
+      "status-icons": {
+          "paused": "󰏤"
+      },
+      // "on-click": "eww open music_pop || eww close music_pop"
+      "on-click": "~/.config/eww/toggle-music.sh",
+      "on-click-right": "playerctl play-pause",
+      "on-scroll-up": "playerctl next",
+      "on-scroll-down": "playerctl previous",
+      "max-length": 40,
+      "interval": 1,
+      "dynamic-len": 35,
+      "tooltip": false
+  },
+
+
 
   "hyprland/language": {
     "format": "󰌌 {}", // Icona tastiera Nerd Font
@@ -57,7 +84,7 @@
   },
 
   "bluetooth": {
-    "format": "{}",
+    "format": " {}",
     "interval": 5,
     "exec": "~/.config/waybar/scripts/bluetooth.sh",
     "on-click": "kitty -e bluetui",

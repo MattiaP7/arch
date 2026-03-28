@@ -1,0 +1,48 @@
+;; ~/.config/eww/eww.yuck
+;; Popup music player - Tokyo Night theme
+
+(defpoll art          :interval "2s" "~/.config/eww/get_art.sh")
+(defpoll title        :interval "2s" "playerctl metadata title 2>/dev/null || echo 'Nessun media'")
+(defpoll artist       :interval "2s" "playerctl metadata artist 2>/dev/null || echo ''")
+(defpoll playpause    :interval "1s" "playerctl status 2>/dev/null || echo 'Stopped'")
+(defpoll song_time    :interval "1s" "playerctl metadata --format '{{ duration(position) }} / {{ duration(mpris:length) }}' 2>/dev/null || echo '0:00'")
+(defpoll song_percent :interval "1s" "~/.config/eww/get_progress.sh")
+
+(defwindow music_pop
+    :monitor 0
+    :geometry (geometry :x "5px"
+                        :y "48px"
+                        :width "420px"
+                        :height "160px"
+                        :anchor "top left")
+    :stacking "fg"
+    :exclusive true
+    :focusable true
+
+
+    (box :class "music-box" :orientation "h" :space-evenly false :spacing 14
+
+        ;; Copertina
+        (box :class "album-art"
+             :style "background-image: url('${art}');")
+
+        ;; Info + controlli
+        (box :class "music-info" :orientation "v" :space-evenly false :valign "center" :spacing 6
+
+            (label :class "song-title"  :text title  :limit-width 24 :halign "start")
+            (label :class "song-artist" :text artist :limit-width 28 :halign "start")
+
+            (box :class "progress-box" :orientation "v" :space-evenly false :spacing 2
+                (scale :class "progress-bar" :value song_percent :min 0 :max 101 :active false)
+                (label :class "progress-time" :text song_time :halign "end")
+            )
+
+            (box :class "controls" :orientation "h" :space-evenly false :spacing 22 :halign "center"
+                (button :onclick "playerctl previous"  :class "ctrl-btn"      "󰒮")
+                (button :onclick "playerctl play-pause" :class "ctrl-btn-play"
+                    {playpause == "Playing" ? "󰏤" : "󰐊"})
+                (button :onclick "playerctl next"       :class "ctrl-btn"      "󰒭")
+            )
+        )
+    )
+)

@@ -233,3 +233,34 @@ tooltip label {
 #language.en {
   color: @red;
 }
+
+/* =============================================
+   MPRIS MEDIA PLAYER - Tokyo Night Theme
+   Aggiungilo in fondo al tuo style.css
+   ============================================= */
+
+#mpris {
+  padding: 0 14px;
+  margin: 4px 2px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: @cyan;
+  background: rgba(125, 207, 255, 0.08);
+  border: 1px solid rgba(125, 207, 255, 0.18);
+  transition: all 0.3s ease;
+  animation: media-glow 3s ease-in-out infinite;
+}
+
+#mpris.paused {
+  color: @gray;
+  background: rgba(86, 95, 137, 0.10);
+  border: 1px solid rgba(86, 95, 137, 0.18);
+  animation: none;
+}
+
+#mpris:hover {
+  background: rgba(125, 207, 255, 0.16);
+  color: @fg;
+  border-color: @cyan;
+  box-shadow: 0 0 14px rgba(125, 207, 255, 0.22);
+}

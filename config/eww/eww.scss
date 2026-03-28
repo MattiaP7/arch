@@ -1,0 +1,128 @@
+// ~/.config/eww/eww.scss
+// Tokyo Night palette — fix bottoni invisibili
+
+$bg_dark: #1a1b26;
+$bg_alt: #24283b;
+$fg: #c0caf5;
+$blue: #7aa2f7;
+$cyan: #7dcfff;
+$magenta: #bb9af7;
+$gray: #565f89;
+$selection: #33467c;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 20px;
+}
+
+// ─── CONTENITORE PRINCIPALE ─────────────────────────
+
+.music-box {
+  background-color: rgba(26, 27, 38, 0.97);
+  border: 2px solid $cyan;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 0 28px rgba(125, 207, 255, 0.14),
+    0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+// ─── COPERTINA ──────────────────────────────────────
+
+.album-art {
+  min-width: 140px;
+  min-height: 140px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+  border: 1px solid $selection;
+}
+
+// ─── TESTI ──────────────────────────────────────────
+
+.music-info {
+  padding-left: 6px;
+}
+
+.song-title {
+  color: $cyan;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.song-artist {
+  color: $gray;
+  font-size: 13px;
+}
+
+// ─── BARRA AVANZAMENTO ──────────────────────────────
+
+.progress-box {
+  margin-top: 4px;
+  margin-bottom: 2px;
+  min-width: 210px;
+}
+
+.progress-bar trough {
+  background-color: $bg_alt;
+  border-radius: 10px;
+  min-height: 5px;
+}
+
+.progress-bar highlight {
+  background-color: $blue;
+  border-radius: 10px;
+}
+
+.progress-bar slider {
+  background-color: transparent;
+  border: none;
+  min-width: 0;
+  min-height: 0;
+  opacity: 0;
+}
+
+.progress-time {
+  color: $gray;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+// ─── BOTTONI CONTROLLO ──────────────────────────────
+// "all: unset" resetta lo stile GTK di default che nasconde il testo
+
+.controls {
+  margin-top: 4px;
+}
+
+.ctrl-btn {
+  all: unset; // <-- chiave: rimuove stile GTK di default
+  color: $fg;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 22px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.ctrl-btn:hover {
+  color: $cyan;
+  background-color: rgba(125, 207, 255, 0.1);
+}
+
+.ctrl-btn-play {
+  all: unset; // <-- stessa cosa per play/pausa
+  color: $magenta;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 30px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.ctrl-btn-play:hover {
+  color: $blue;
+  background-color: rgba(122, 162, 247, 0.1);
+}
