@@ -1,0 +1,27 @@
+[manager]
+# Colori delle colonne
+cwd = { fg = "#7dcfff" } # Cyan
+
+# Stato della selezione
+hovered         = { fg = "#1a1b26", bg = "#7aa2f7", bold = true }
+preview_hovered = { underline = true }
+
+# Tipi di file
+directory = { fg = "#7aa2f7", bold = true }
+file      = { fg = "#c0caf5" }
+symlink   = { fg = "#bb9af7" }
+executable = { fg = "#9ece6a" }
+
+[status]
+separator_open  = ""
+separator_close = ""
+
+[status.mode]
+normal = { bg = "#7aa2f7", fg = "#1a1b26", bold = true }
+select = { bg = "#9ece6a", fg = "#1a1b26", bold = true }
+unset  = { bg = "#f7768e", fg = "#1a1b26", bold = true }
+
+[status.permissions]
+user  = { fg = "#e0af68" }
+group = { fg = "#e0af68" }
+other = { fg = "#565f89" }

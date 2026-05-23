@@ -1,44 +1,39 @@
 #!/bin/bash
 
-WALLPAPER_DIR="$HOME/Pictures/wallpapers"
-STATE_FILE="$HOME/.cache/current_wallpaper"
-TRANSITION="wipe"
-DURATION=1
+# Cartella dei tuoi wallpaper
+WALL_DIR="$HOME/Pictures/wallpapers"
 
-# crea cache se non esiste
-mkdir -p "$(dirname "$STATE_FILE")"
+# Verifica swww
+pgrep -x swww-daemon > /dev/null || swww-daemon &
 
-# lista wallpapers
-mapfile -t WALLPAPERS < <(find "$WALLPAPER_DIR" -type f | sort)
+# Genera la lista in modo pulito per evitare l'errore "null byte"
+# Usiamo un ciclo semplice invece di gawk per massima compatibilità
+wall_list=""
+while IFS= read -r file; do
+    wall_list+="${file}\0icon\x1f${WALL_DIR}/${file}\n"
+done < <(ls -1 "$WALL_DIR")
 
-# esci se cartella vuota
-[ ${#WALLPAPERS[@]} -eq 0 ] && exit 1
+# Lanciamo Fuzzel con i nomi dei flag corretti per la tua versione
+selection=$(echo -e "$wall_list" | fuzzel --dmenu \
+    --placeholder="Scegli Wallpaper..." \
+    --dpi-aware=no \
+    --width=60 \
+    --lines=4 \
+    --background-color="1a1b26f2" \
+    --text-color="c0caf5ff" \
+    --match-color="bb9af7ff" \
+    --selection-color="33467cff" \
+    --selection-text-color="ffffffff" \
+    --border-color="7aa2f7ff" \
+    --border-width=2)
 
-# wallpaper corrente
-if [ -f "$STATE_FILE" ]; then
-  CURRENT=$(cat "$STATE_FILE")
-else
-  CURRENT=""
+# Se hai selezionato qualcosa
+if [ -n "$selection" ]; then
+    wallpaper_path="${WALL_DIR}/${selection}"
+    
+    # Applica con swww
+    swww img "$wallpaper_path" --transition-type grow --transition-duration 1.5
+    
+    # Notifica
+    notify-send "Wallpaper" "Sfondo aggiornato" -i "$wallpaper_path"
 fi
-
-# trova il prossimo
-NEXT=""
-# Sostituisci la parte del ciclo FOR nel tuo script con:
-SELECTED=$(find "$WALLPAPER_DIR" -type f | walker --dmenu --placeholder "Scegli sfondo...")
-
-[ -z "$SELECTED" ] && exit 0
-
-swww img "$SELECTED" --transition-type "$TRANSITION"
-echo "$SELECTED" > "$STATE_FILE"
-
-# se non trovato, usa il primo
-[ -z "$NEXT" ] && NEXT="${WALLPAPERS[0]}"
-
-# applica wallpaper
-swww img "$NEXT" \
-  --transition-type "$TRANSITION" \
-  --transition-duration "$DURATION"
-
-# salva stato
-echo "$NEXT" > "$STATE_FILE"
-

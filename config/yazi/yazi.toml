@@ -1,0 +1,40 @@
+[mgr]
+ratio          = [1, 3, 4]
+sort_by        = "natural"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+show_hidden    = true
+show_symlink   = true
+# [mgr]
+# show_hidden = true
+
+[preview]
+tab_size        = 2
+max_width       = 600
+max_height      = 900
+cache_dir       = ""
+image_filter    = "triangle"
+image_quality   = 75
+sixel_fraction  = 15
+
+[opener]
+edit = [
+    { run = 'nvim "$@"', block = true, desc = "Edit with Neovim" },
+]
+play = [
+    { run = 'mpv "$@"', orphan = true, desc = "Play with MPV" },
+]
+open = [
+    { run = 'xdg-open "$@"', desc = "Open with default app" },
+]
+
+[open]
+rules = [
+    { name = "*/", use = [ "edit", "open" ] },
+    { mime = "text/*", use = [ "edit", "open" ] },
+    { mime = "image/*", use = [ "open" ] },
+    { mime = "video/*", use = [ "play", "open" ] },
+    { mime = "audio/*", use = [ "play", "open" ] },
+    { mime = "application/pdf", use = [ "open" ] },
+]
